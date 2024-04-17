@@ -9,9 +9,6 @@ from sklearn.model_selection import train_test_split
 from sklearn.naive_bayes import MultinomialNB
 from sklearn.metrics import accuracy_score, classification_report
 
-# Downloading necessary NLTK resources
-nltk.download('punkt')
-nltk.download('stopwords')
 
 # Load training and testing data from text files
 train_dataset = pd.read_csv(r'Movie_Genre_classifier\Genre Classification Dataset\train_data.txt', 
@@ -55,10 +52,12 @@ classifier.fit(X_train, y_train)
 y_pred = classifier.predict(X_val)
 accuracy = accuracy_score(y_val, y_pred)
 print("Validation Accuracy:", accuracy)
-print(classification_report(y_val, y_pred))
+print(classification_report(y_val, y_pred, zero_division=0))  # Avoiding division by zero error
 
 # Predicting genres for test dataset and saving the results
 X_test_predictions = classifier.predict(X_test)
 test_dataset['Predicted_Genre'] = X_test_predictions
 test_dataset.to_csv(r'Movie_Genre_classifier\predicted_genres.csv', index=False)
-print(test_dataset)
+print(test_dataset.head())
+
+
